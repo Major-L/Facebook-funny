@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Clone</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-content">
+            <span class="close-auth">&times;</span>
+            <h2>Log in to Facebook</h2>
+            <form id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Email address" required>
+                <input type="password" id="loginPassword" placeholder="Password" required>
+                <button type="submit">Log In</button>
+            </form>
+            <div class="auth-footer">
+                <a href="#">Forgotten account?</a>
+                <a href="#" id="showSignup">Sign up for Facebook</a>
+            </div>
+        </div>
+
+        <div class="auth-content" id="signupContent" style="display: none;">
+            <span class="close-auth">&times;</span>
+            <h2>Sign Up</h2>
+            <p>It's quick and easy.</p>
+            <form id="signupForm">
+                <input type="text" id="signupName" placeholder="Full name" required>
+                <input type="email" id="signupEmail" placeholder="Email address" required>
+                <input type="password" id="signupPassword" placeholder="New password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+            <div class="auth-footer">
+                <a href="#" id="showLogin">Already have an account?</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App (hidden until authenticated) -->
+    <div class="app-container" id="appContainer" style="display: none;">
+        <div class="navbar">
+            <div class="logo">
+                <i class="fab fa-facebook"></i>
+                <span>facebook</span>
+            </div>
+            <div class="search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search Facebook">
+            </div>
+            <div class="nav-icons">
+                <i class="fas fa-home active"></i>
+                <i class="fas fa-tv"></i>
+                <i class="fas fa-store"></i>
+                <i class="fas fa-users"></i>
+                <i class="fas fa-gamepad"></i>
+            </div>
+            <div class="profile">
+                <img id="profilePic" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile">
+                <span id="profileName">User</span>
+                <i class="fas fa-caret-down"></i>
+                <div class="dropdown-menu">
+                    <div class="dropdown-item" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Log Out</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="sidebar-item">
+                <img id="sidebarProfilePic" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile">
+                <span id="sidebarProfileName">User</span>
+            </div>
+            <div class="sidebar-item">
+                <i class="fas fa-user-friends"></i>
+                <span>Friends</span>
+            </div>
+            <div class="sidebar-item">
+                <i class="fas fa-flag"></i>
+                <span>Pages</span>
+            </div>
+            <div class="sidebar-item">
+                <i class="fas fa-bookmark"></i>
+                <span>Saved</span>
+            </div>
+            <div class="sidebar-item">
+                <i class="fas fa-users"></i>
+                <span>Groups</span>
+            </div>
+            <div class="sidebar-item">
+                <i class="fas fa-store"></i>
+                <span>Marketplace</span>
+            </div>
+            <div class="sidebar-item">
+                <i class="fas fa-calendar"></i>
+                <span>Events</span>
+            </div>
+            <div class="sidebar-item">
+                <i class="fas fa-clock"></i>
+                <span>Memories</span>
+            </div>
+            <div class="sidebar-item">
+                <i class="fas fa-chevron-down"></i>
+                <span>See More</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="stories">
+                <div class="story create-story" id="createStory">
+                    <img id="storyUserPic" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Your story">
+                    <div class="plus-icon">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <span>Create Story</span>
+                </div>
+                <!-- Stories will be loaded here dynamically -->
+            </div>
+
+            <div class="create-post">
+                <div class="post-top">
+                    <img id="postUserPic" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile">
+                    <input type="text" id="postInput" placeholder="What's on your mind?">
+                    <input type="file" id="postImageInput" accept="image/*" style="display: none;">
+                </div>
+                <div class="post-options">
+                    <div class="option" id="liveVideoOption">
+                        <i class="fas fa-video"></i>
+                        <span>Live Video</span>
+                    </div>
+                    <div class="option" id="photoVideoOption">
+                        <i class="fas fa-images"></i>
+                        <span>Photo/Video</span>
+                    </div>
+                    <div class="option" id="feelingOption">
+                        <i class="fas fa-smile"></i>
+                        <span>Feeling/Activity</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="posts" id="postsContainer">
+                <!-- Posts will be loaded here dynamically -->
+                <div class="loading-posts">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span>Loading posts...</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-sidebar">
+            <div class="sponsored">
+                <h3>Sponsored</h3>
+                <div class="sponsored-item">
+                    <img src="https://source.unsplash.com/random/100x100?ad" alt="Ad">
+                    <div class="sponsored-info">
+                        <span class="title">Try our new product!</span>
+                        <span class="website">example.com</span>
+                    </div>
+                </div>
+                <div class="sponsored-item">
+                    <img src="https://source.unsplash.com/random/100x100?promo" alt="Ad">
+                    <div class="sponsored-info">
+                        <span class="title">Summer Sale - 50% Off</span>
+                        <span class="website">shop.example.com</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="birthdays">
+                <h3>Birthdays</h3>
+                <div class="birthday-item">
+                    <i class="fas fa-birthday-cake"></i>
+                    <span><b>Sarah Smith</b> and <b>2 others</b> have birthdays today.</span>
+                </div>
+            </div>
+
+            <div class="contacts">
+                <div class="contacts-header">
+                    <h3>Contacts</h3>
+                    <div class="icons">
+                        <i class="fas fa-video"></i>
+                        <i class="fas fa-search"></i>
+                        <i class="fas fa-ellipsis-h"></i>
+                    </div>
+                </div>
+                <div class="contact-list" id="contactList">
+                    <!-- Contacts will be loaded here dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage-compat.js"></script>
+    
+    <script src="script.js"></script>
+</body>
+</html>
